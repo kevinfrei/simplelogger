@@ -24,7 +24,7 @@ log.enable = (id/*: mixed*/) => {
 log.defaultToOff = () => defaultToShow = false;
 log.defaultToOn = () => defaultToShow = true;
 
-log.bind = (name/*:id*/) => (...args/*:mixed*/) => log(id, ...args);
+log.bind = (id/*:mixed*/) => (...args/*:mixed*/) => log(id, ...args);
 
 module.exports = log;
 
