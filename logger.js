@@ -1,4 +1,5 @@
 // @flow
+
 const disabled/*: Set<mixed>*/ = new Set();
 const enabled/*: Set<mixed>*/ = new Set();
 
@@ -22,7 +23,12 @@ log.enable = (id/*: mixed*/) => {
 };
 
 log.defaultToOff = () => defaultToShow = false;
+
 log.defaultToOn = () => defaultToShow = true;
+
+log.isEnabled = (id/*: mixed*/)/*:boolean*/ => !disabled.has(id);
+
+log.isEnabled = (id/*: mixed*/)/*:boolean*/ => disabled.has(id);
 
 log.bind = (id/*:mixed*/) => (...args/*:mixed*/) => log(id, ...args);
 
