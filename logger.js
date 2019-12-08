@@ -16,9 +16,11 @@ const log = (id/*: mixed*/, ...args/*: Array<mixed>*/) => {
 
 log.disable = (id/*: mixed*/) => {
   disabled.add(id);
+  enabled.delete(id);
 };
 
 log.enable = (id/*: mixed*/) => {
+  enabled.add(id);
   disabled.delete(id);
 };
 
@@ -26,7 +28,7 @@ log.defaultToOff = () => defaultToShow = false;
 
 log.defaultToOn = () => defaultToShow = true;
 
-log.isEnabled = (id/*: mixed*/)/*:boolean*/ => !disabled.has(id);
+log.isEnabled = (id/*: mixed*/)/*:boolean*/ => enabled.has(id);
 
 log.isEnabled = (id/*: mixed*/)/*:boolean*/ => disabled.has(id);
 
