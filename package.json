@@ -1,10 +1,13 @@
 {
   "name": "simplelogger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A very simplistic logger with filtering",
   "main": "logger.js",
   "repository": "https://github.com/kevinfrei/simplelogger.git",
   "author": "Kevin Frei <kevinfrei@hotmail.com>",
   "license": "Unlicense",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "flow-bin": "^0.114.0"
+  }
 }

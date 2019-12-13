@@ -1,10 +1,22 @@
 // @flow
-const disabled/*: Set<mixed>*/ = new Set();
-const enabled/*: Set<mixed>*/ = new Set();
+
+const disabled /*: Set<mixed>*/ = new Set();
+const enabled /*: Set<mixed>*/ = new Set();
 
 let defaultToShow = true;
 
-const log = (id/*: mixed*/, ...args/*: Array<mixed>*/) => {
+/*::
+type logType = {
+  (id: mixed, ...args: Array<mixed>): void,
+  disable: (id: mixed) => void,
+  enable: (id: mixed) => void,
+  defaultToOff: () => void,
+  defaultToOn: () => void,
+  bind: (id: mixed) => (...args: Array<mixed>) => void
+};
+*/ 
+
+const log /*:logType*/ = (id /*: mixed*/, ...args /*: Array<mixed>*/) => {
   if (
     (defaultToShow && !disabled.has(id)) ||
     (!defaultToShow && enabled.has(id))
@@ -13,18 +25,22 @@ const log = (id/*: mixed*/, ...args/*: Array<mixed>*/) => {
   }
 };
 
-log.disable = (id/*: mixed*/) => {
+log.disable = (id /*: mixed*/) => {
   disabled.add(id);
 };
 
-log.enable = (id/*: mixed*/) => {
+log.enable = (id /*: mixed*/) => {
   disabled.delete(id);
 };
 
-log.defaultToOff = () => defaultToShow = false;
-log.defaultToOn = () => defaultToShow = true;
+log.defaultToOff = () => {
+  defaultToShow = false;
+};
 
-log.bind = (id/*:mixed*/) => (...args/*:mixed*/) => log(id, ...args);
+log.defaultToOn = () => {
+  defaultToShow = true;
+};
+
+log.bind = (id /*:mixed*/) => (...args /*:Array<mixed>*/) => log(id, ...args);
 
 module.exports = log;
-
