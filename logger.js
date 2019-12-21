@@ -5,6 +5,7 @@ const enabled /*: Set<mixed>*/ = new Set();
 
 let defaultToShow = true;
 
+/*::
 type logType = {
   (id: mixed, ...args: Array<mixed>): void,
   disable: (id: mixed) => void,
@@ -15,6 +16,7 @@ type logType = {
   isDisabled: (id: mixed) => boolean,
   bind: (id: mixed) => (...args: Array<mixed>) => void
 };
+*/
 
 const log /*:logType*/ = (id /*: mixed*/, ...args /*: Array<mixed>*/) => {
   if (
