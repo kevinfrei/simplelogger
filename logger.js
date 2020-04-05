@@ -53,6 +53,17 @@ log.isEnabled = (id /*: mixed*/) /*:boolean*/ => enabled.has(id);
 
 log.isDisabled = (id /*: mixed*/) /*:boolean*/ => disabled.has(id);
 
-log.bind = (id /*:mixed*/) => (...args /*:Array<mixed>*/) => log(id, ...args);
+log.bind = (
+  id /*:mixed*/,
+  enabled /*:?boolean*/
+) /*: (...args: Array<mixed>) => void */ => {
+  const boundLogger = (...args /*:Array<mixed>*/) => log(id, ...args);
+  if (enabled) {
+    log.enable(id);
+  } else {
+    log.disable(id);
+  }
+  return boundLogger;
+};
 
 module.exports = log;
