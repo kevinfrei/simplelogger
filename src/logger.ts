@@ -3,22 +3,23 @@ const enabled: Set<unknown> = new Set();
 
 let defaultToShow = true;
 
-type logType = {
-  (id: unknown, ...args: Array<unknown>): void;
+export type logType = {
+  (id: unknown, ...args: unknown[]): void;
   disable: (id: unknown) => void;
   enable: (id: unknown) => void;
   defaultToOff: () => void;
   defaultToOn: () => void;
   isEnabled: (id: unknown) => boolean;
   isDisabled: (id: unknown) => boolean;
-  bind: (id: unknown, enabled?: boolean) => (...args: Array<unknown>) => void;
+  bind: (id: unknown, enabled?: boolean) => (...args: unknown[]) => void;
 };
 
-const log = (id: unknown, ...args: Array<unknown>) => {
+const log = (id: unknown, ...args: unknown[]) => {
   if (
     (defaultToShow && !disabled.has(id)) ||
     (!defaultToShow && enabled.has(id))
   ) {
+    // tslint:disable-next-line
     console.log(...args);
   }
 };
@@ -29,6 +30,7 @@ log.disable = (id: unknown) => {
 };
 
 log.enable = (id: unknown) => {
+  enabled.add(id);
   disabled.delete(id);
 };
 
@@ -40,21 +42,16 @@ log.defaultToOn = () => {
   defaultToShow = true;
 };
 
-log.enable = (id: unknown) => {
-  enabled.add(id);
-  disabled.delete(id);
-};
-
 log.isEnabled = (id: unknown): boolean => enabled.has(id);
 
 log.isDisabled = (id: unknown): boolean => disabled.has(id);
 
 log.bind = (
   id: unknown,
-  enabled?: boolean
-): ((...args: Array<unknown>) => void) => {
-  const boundLogger = (...args: Array<unknown>) => log(id, ...args);
-  if (enabled) {
+  isEnabled?: boolean,
+): ((...args: unknown[]) => void) => {
+  const boundLogger = (...args: unknown[]) => log(id, ...args);
+  if (isEnabled) {
     log.enable(id);
   } else {
     log.disable(id);
