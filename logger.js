@@ -1,69 +1,59 @@
-// @flow
-
-const disabled /*: Set<mixed>*/ = new Set();
-const enabled /*: Set<mixed>*/ = new Set();
-
-let defaultToShow = true;
-
-/*::
-type logType = {
-  (id: mixed, ...args: Array<mixed>): void,
-  disable: (id: mixed) => void,
-  enable: (id: mixed) => void,
-  defaultToOff: () => void,
-  defaultToOn: () => void,
-  isEnabled: (id: mixed) => boolean,
-  isDisabled: (id: mixed) => boolean,
-  bind: (id: mixed) => (...args: Array<mixed>) => void
+"use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
-*/
-
-const log /*:logType*/ = (id /*: mixed*/, ...args /*: Array<mixed>*/) => {
-  if (
-    (defaultToShow && !disabled.has(id)) ||
-    (!defaultToShow && enabled.has(id))
-  ) {
-    console.log(...args);
-  }
+Object.defineProperty(exports, "__esModule", { value: true });
+var disabled = new Set();
+var enabled = new Set();
+var defaultToShow = true;
+var log = function (id) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    if ((defaultToShow && !disabled.has(id)) ||
+        (!defaultToShow && enabled.has(id))) {
+        console.log.apply(console, args);
+    }
 };
-
-log.disable = (id /*: mixed*/) => {
-  disabled.add(id);
-  enabled.delete(id);
+log.disable = function (id) {
+    disabled.add(id);
+    enabled.delete(id);
 };
-
-log.enable = (id /*: mixed*/) => {
-  disabled.delete(id);
+log.enable = function (id) {
+    disabled.delete(id);
 };
-
-log.defaultToOff = () => {
-  defaultToShow = false;
+log.defaultToOff = function () {
+    defaultToShow = false;
 };
-
-log.defaultToOn = () => {
-  defaultToShow = true;
+log.defaultToOn = function () {
+    defaultToShow = true;
 };
-
-log.enable = (id /*: mixed*/) => {
-  enabled.add(id);
-  disabled.delete(id);
+log.enable = function (id) {
+    enabled.add(id);
+    disabled.delete(id);
 };
-
-log.isEnabled = (id /*: mixed*/) /*:boolean*/ => enabled.has(id);
-
-log.isDisabled = (id /*: mixed*/) /*:boolean*/ => disabled.has(id);
-
-log.bind = (
-  id /*:mixed*/,
-  enabled /*:?boolean*/
-) /*: (...args: Array<mixed>) => void */ => {
-  const boundLogger = (...args /*:Array<mixed>*/) => log(id, ...args);
-  if (enabled) {
-    log.enable(id);
-  } else {
-    log.disable(id);
-  }
-  return boundLogger;
+log.isEnabled = function (id) { return enabled.has(id); };
+log.isDisabled = function (id) { return disabled.has(id); };
+log.bind = function (id, enabled) {
+    var boundLogger = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return log.apply(void 0, __spreadArrays([id], args));
+    };
+    if (enabled) {
+        log.enable(id);
+    }
+    else {
+        log.disable(id);
+    }
+    return boundLogger;
 };
-
-module.exports = log;
+var theLogger = log;
+exports.default = theLogger;
