@@ -14,7 +14,7 @@ export type logType = {
   bind: (id: unknown, enabled?: boolean) => (...args: unknown[]) => void;
 };
 
-const log = (id: unknown, ...args: unknown[]) => {
+export default function log(id: unknown, ...args: unknown[]) {
   if (
     (defaultToShow && !disabled.has(id)) ||
     (!defaultToShow && enabled.has(id))
@@ -22,7 +22,7 @@ const log = (id: unknown, ...args: unknown[]) => {
     // tslint:disable-next-line
     console.log(...args);
   }
-};
+}
 
 log.disable = (id: unknown) => {
   disabled.add(id);
@@ -58,7 +58,3 @@ log.bind = (
   }
   return boundLogger;
 };
-
-const theLogger: logType = log;
-
-export default theLogger;
