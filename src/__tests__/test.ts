@@ -1,4 +1,4 @@
-import logger from '../logger';
+import { logger } from '../logger';
 
 test('sanity', () => {
   const log = logger.bind('test');
