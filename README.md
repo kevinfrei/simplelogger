@@ -1,3 +1,6 @@
+# THIS IS DEAD
+It lives in my core-utils modules instead.
+
 # simplelogger
 A *VERY* simplistic console.log replacement to enable filtering
 
